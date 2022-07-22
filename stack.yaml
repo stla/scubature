@@ -1,0 +1,8 @@
+resolver: lts-19.16
+
+packages:
+- .
+
+extra-deps:
+ - combinat-0.2.10.0
+ - compact-word-vectors-0.2.0.2@sha256:e46c7c3186dafe1ae22434556ddec91af022f2360c57c30a46397758938f3acc,2617
