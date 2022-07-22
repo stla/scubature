@@ -308,13 +308,13 @@ smpsms vertex nf f g scalar = do
 
 extractColumn :: IOMatrix -> Int -> IO IO1dArray
 extractColumn m j = do
-  (_, (nrow,_)) <- getBounds m
-  mapIndices (1,nrow) (\i -> (i,j)) m
+  (_, (nrow, _)) <- getBounds m
+  mapIndices (1, nrow) (\i -> (i, j)) m
 
 extractRow :: IOMatrix -> Int -> IO IO1dArray
 extractRow m i = do
-  (_, (_,ncol)) <- getBounds m
-  mapIndices (1,ncol) (\j -> (i,j)) m
+  (_, (_, ncol)) <- getBounds m
+  mapIndices (1, ncol) (\j -> (i, j)) m
 
 outerProduct :: IO1dArray -> VectorD -> IO IOMatrix
 outerProduct x1 x2 = do
@@ -662,12 +662,12 @@ check nd nf mxfs ea er sbs key
     = 0
 
 adsimp :: Int -> Int -> Int -> (VectorD -> VectorD) -> Double -> Double
-       -> Int -> IO3dArray -> Bool -> IO (VectorD, VectorD, Int, Bool)
-adsimp nd nf mxfs f ea er key vrts info = do
+       -> Int -> IO3dArray -> IO (VectorD, VectorD, Int, Bool)
+adsimp nd nf mxfs f ea er key vrts = do
   (_, (_,_,sbs)) <- getBounds vrts
   case check nd nf mxfs ea er sbs key of
-    0 -> smpsad nd nf f mxfs ea er key (smpchc nd key) sbs vrts info
-    1 -> smpsad nd nf f (sbs * smpchc nd key) ea er key (smpchc nd key) sbs vrts info
+    0 -> smpsad nd nf f mxfs ea er key (smpchc nd key) sbs vrts
+    1 -> smpsad nd nf f (sbs * smpchc nd key) ea er key (smpchc nd key) sbs vrts
     2 -> error "integration rule must be between 1 and 4"
     3 -> error "dimension must be at least 2"
     4 -> error "number of components must be at least 1"
@@ -678,8 +678,8 @@ type Params = (Bool, Int, Int, Seq VectorD, Seq VectorD,
                VectorD, VectorD, IO3dArray, Seq Double)
 
 smpsad :: Int -> Int -> (VectorD -> VectorD) -> Int -> Double -> Double -> Int
-       -> Int -> Int -> IO3dArray -> Bool -> IO (VectorD, VectorD, Int, Bool)
-smpsad nd nf f mxfs ea er key rcls sbs vrts info = do
+       -> Int -> Int -> IO3dArray -> IO (VectorD, VectorD, Int, Bool)
+smpsad nd nf f mxfs ea er key rcls sbs vrts = do
   let dfcost = 1 + 2*nd*(nd+1)
   (g, w, pospts) <- smprms nd key
   simplices <- mapM (toSimplex vrts (nd+1)) [1..sbs]

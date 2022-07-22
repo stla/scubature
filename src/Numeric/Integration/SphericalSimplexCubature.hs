@@ -5,6 +5,7 @@ import Numeric.Integration.Simplex.Simplex
 import Numeric.Integration.SimplexCubature
 import Numeric.Integration.SphericalSimplexCubature.Internal
 
+-- | Integral of a real-valued function over a spherical simplex.
 integrateOnSphericalSimplex
     :: ([Double] -> Double)   -- integrand
     -> SphericalSimplex       -- domain

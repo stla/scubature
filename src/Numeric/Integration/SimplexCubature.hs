@@ -32,6 +32,7 @@ simplicesToArray simplices = do
             :: UArray (Int,Int,Int) Double
   unsafeThaw arr
 
+-- | Integral of a vector-valued function over an union of simplices.
 integrateOnSimplex
     :: (VectorD -> VectorD)   -- integrand
     -> Simplices              -- domain
@@ -47,10 +48,11 @@ integrateOnSimplex f s ncomp maxevals absError relError rule = do
     then do
       v <- simplicesToArray s
       (vals, errors, nevals, fl) <-
-        adsimp n ncomp maxevals f absError relError rule v False
+        adsimp n ncomp maxevals f absError relError rule v
       return $ Results (UV.toList vals) (UV.toList errors) nevals (not fl)
     else error "invalid simplices"
 
+-- | Integral of a real-valued function over an union of simplices.
 integrateOnSimplex'
     :: (VectorD -> Double)    -- integrand
     -> Simplices              -- domain
@@ -65,6 +67,6 @@ integrateOnSimplex' f s maxevals absError relError rule = do
     then do
       v <- simplicesToArray s
       (val, err, nevals, fl) <-
-        adsimp n 1 maxevals (UV.singleton . f) absError relError rule v False
+        adsimp n 1 maxevals (UV.singleton . f) absError relError rule v
       return $ Result (UV.head val) (UV.head err) nevals (not fl)
     else error "invalid simplices"
