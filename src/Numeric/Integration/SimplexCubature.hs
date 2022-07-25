@@ -34,14 +34,14 @@ simplicesToArray simplices = do
 
 -- | Integral of a vector-valued function over an union of simplices.
 integrateOnSimplex
-    :: (VectorD -> VectorD)   -- integrand
-    -> Simplices              -- domain
-    -> Int                    -- number of components
-    -> Int                    -- maximum number of evaluations
-    -> Double                 -- desired absolute error
-    -> Double                 -- desired relative error
-    -> Int                    -- integration rule: 1, 2, 3 or 4
-    -> IO Results             -- integral, error, evaluations, success
+    :: (VectorD -> VectorD)   -- ^ integrand
+    -> Simplices              -- ^ domain of integration
+    -> Int                    -- ^ number of components
+    -> Int                    -- ^ maximum number of evaluations
+    -> Double                 -- ^ desired absolute error
+    -> Double                 -- ^ desired relative error
+    -> Int                    -- ^ integration rule: 1, 2, 3 or 4
+    -> IO Results             -- ^ integral, error, evaluations, success
 integrateOnSimplex f s ncomp maxevals absError relError rule = do
   let n = length (head s) - 1
   if isValidSimplices s
@@ -54,13 +54,13 @@ integrateOnSimplex f s ncomp maxevals absError relError rule = do
 
 -- | Integral of a real-valued function over an union of simplices.
 integrateOnSimplex'
-    :: (VectorD -> Double)    -- integrand
-    -> Simplices              -- domain
-    -> Int                    -- maximum number of evaluations
-    -> Double                 -- desired absolute error
-    -> Double                 -- desired relative error
-    -> Int                    -- integration rule: 1, 2, 3 or 4
-    -> IO Result              -- integral, error, evaluations, success
+    :: (VectorD -> Double)    -- ^ integrand
+    -> Simplices              -- ^ domain of integration
+    -> Int                    -- ^ maximum number of evaluations
+    -> Double                 -- ^ desired absolute error
+    -> Double                 -- ^ desired relative error
+    -> Int                    -- ^ integration rule: 1, 2, 3 or 4
+    -> IO Result              -- ^ integral, error, evaluations, success
 integrateOnSimplex' f s maxevals absError relError rule = do
   let n = length (head s) - 1
   if isValidSimplices s

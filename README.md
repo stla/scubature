@@ -59,10 +59,10 @@ and then to use `integrateOnSimplex'`:
 
 ```haskell
 integrateOnSimplex' f [simplex] 100000 0 1e-10 3
--- Result { value = 0.8455356852954488
+-- Result { value         = 0.8455356852954488
 --        , errorEstimate = 8.082378899762402e-11
---        , evaluations = 8700
---        , success = True }
+--        , evaluations   = 8700
+--        , success       = True }
 ```
 
 ## Integration on a spherical triangle
