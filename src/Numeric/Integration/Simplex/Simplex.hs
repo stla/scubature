@@ -7,14 +7,14 @@ type Simplices = [Simplex]
 
 isValidSimplex :: Simplex -> Bool
 isValidSimplex simplex =
-  (length simplex == dim+1) &&
-    all (== dim) (map length (tail simplex))
+  (length simplex == dim + 1) &&
+    all ((== dim) . length) (tail simplex)
   where dim = length (head simplex)
 
 isValidSimplices :: Simplices -> Bool
 isValidSimplices simplices =
   all isValidSimplex simplices &&
-    all (== spaceDim (head simplices)) (map spaceDim (tail simplices))
+    all ((== spaceDim (head simplices)) . spaceDim) (tail simplices)
   where spaceDim simplex = length (head simplex)
 
 canonicalSimplex :: Int -> Simplex

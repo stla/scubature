@@ -31,7 +31,7 @@ f v = singleton $ exp (V.sum v)
 Define the simplex:
 
 ```haskell
-simplex = [[0,0,0],[1,1,1],[0,1,1],[0,0,1]]
+simplex = [[0, 0, 0], [1, 1, 1], [0, 1, 1], [0, 0, 1]]
 ```
 
 Integrate:
@@ -73,12 +73,12 @@ unit sphere (in dimension 3, a spherical triangle).
 For example take the first orthant in dimension 3:
 
 ```haskell
-> import Numeric.Integration.SphericalSimplexCubature
-> o1 = orthants 3 !! 0
-> o1
-[ [1.0, 0.0, 0.0]
-, [0.0, 1.0, 0.0]
-, [0.0, 0.0, 1.0] ]
+import Numeric.Integration.SphericalSimplexCubature
+o1 = orthants 3 !! 0
+o1
+-- [ [1.0, 0.0, 0.0]
+-- , [0.0, 1.0, 0.0]
+-- , [0.0, 0.0, 1.0] ]
 ```
 
 And this integrand:
@@ -86,16 +86,16 @@ And this integrand:
 ```haskell
 :{
 integrand :: [Double] -> Double
-integrand x = x!!0 * x!!0 * x!!2 + x!!1 * x!!1 * x!!2 + x!!2 * x!!2 * x!!2
+integrand x = (x!!0 * x!!0 * x!!2) + (x!!1 * x!!1 * x!!2) + (x!!2 * x!!2 * x!!2)
 :}
 ```
 
-Compute the integral (the exact result is `pi/4`):
+Compute the integral (the exact result is `pi/4 ≈ 0.7853981634`):
 
 ```haskell
-> integrateOnSphericalSimplex integrand o1 10000 0 1e-5 3
-Result { value = 0.7853978756312796
-       , errorEstimate = 7.248620366022506e-6
-       , evaluations = 3282
-       , success = True }
+> integrateOnSphericalSimplex integrand o1 20000 0 1e-7 3
+Result { value         = 0.7853981641913279
+       , errorEstimate = 7.71579524444753e-8
+       , evaluations   = 17065
+       , success       = True }
 ```

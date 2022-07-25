@@ -2,11 +2,11 @@
 module Numeric.Integration.SimplexCubature
   (Result(..), Results(..), integrateOnSimplex, integrateOnSimplex')
   where
-import           Data.Array.Unboxed                          (UArray, array)
-import           Data.Array.Unsafe                           (unsafeThaw)
-import qualified Data.Vector.Unboxed                         as UV
-import           Numeric.Integration.Simplex.Simplex
-import           Numeric.Integration.SimplexCubature.Internal
+import           Data.Array.Unboxed                  (UArray, array)
+import           Data.Array.Unsafe                   (unsafeThaw)
+import qualified Data.Vector.Unboxed                 as UV
+import           Numeric.Integration.Simplex.Simplex ( isValidSimplices, Simplices )
+import Numeric.Integration.SimplexCubature.Internal  ( VectorD, IO3dArray, adsimp )
 
 data Results = Results
   { values         :: [Double]
@@ -26,10 +26,10 @@ simplicesToArray :: Simplices -> IO IO3dArray
 simplicesToArray simplices = do
   let dim = length (head (head simplices))
       nsimplices = length simplices
-      assocList = map (\[i,j,k] -> ((i,j,k), (simplices!!(k-1))!!(j-1)!!(i-1)))
-                      (sequence [[1..dim], [1..(dim+1)], [1..nsimplices]])
-      arr = array ((1,1,1),(dim,dim+1,nsimplices)) assocList
-            :: UArray (Int,Int,Int) Double
+      assocList = map (\[i, j, k] -> ((i, j, k), (simplices!!(k-1))!!(j-1)!!(i-1)))
+                      (sequence [[1 .. dim], [1 .. (dim+1)], [1 .. nsimplices]])
+      arr = array ((1, 1, 1), (dim, dim+1, nsimplices)) assocList
+            :: UArray (Int, Int, Int) Double
   unsafeThaw arr
 
 -- | Integral of a vector-valued function over an union of simplices.
