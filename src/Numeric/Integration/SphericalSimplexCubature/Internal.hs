@@ -2,17 +2,17 @@ module Numeric.Integration.SphericalSimplexCubature.Internal
   (orthants, SphericalSimplex, transformedIntegrand)
   where
 import           Data.List.Index     (imap)
-import           Data.Matrix         (detLU, diagonalList, fromLists,
+import           Data.Matrix         (detLU, diagonalList, fromLists, 
                                       minorMatrix, toLists, zero, (<->))
 import           Data.Vector.Unboxed (Vector)
 import qualified Data.Vector.Unboxed as V
 
-type SphericalSimplex = [[Double]] -- square [v1,v2,v3,v4]
+type SphericalSimplex = [[Double]] -- square [v1, v2, v3, v4]
 
 orthants :: Int -> [SphericalSimplex]
 orthants n = reverse $ map (toLists . diagonalList n 0) (pm n)
-  where pm 2 = [[i,j] | i <- [-1,1], j <- [-1,1]]
-        pm k = [i : l | i <- [-1,1], l <- pm (k-1)]
+  where pm 2 = [[i, j] | i <- [-1, 1], j <- [-1, 1]]
+        pm k = [i : l | i <- [-1, 1], l <- pm (k-1)]
 
 norm2 :: [Double] -> Double
 norm2 v = sqrt $ sum $ zipWith (*) v v

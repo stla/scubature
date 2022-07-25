@@ -37,12 +37,12 @@ simplex = [[0, 0, 0], [1, 1, 1], [0, 1, 1], [0, 0, 1]]
 Integrate:
 
 ```haskell
-> import Numeric.Integration.SimplexCubature
-> integrateOnSimplex f [simplex] 1 100000 0 1e-10 3
-Results { values = [0.8455356852954488]
-        , errorEstimates = [8.082378899762402e-11]
-        , evaluations = 8700
-        , success = True }
+import Numeric.Integration.SimplexCubature
+integrateOnSimplex f [simplex] 1 100000 0 1e-10 3
+-- Results { values = [0.8455356852954488]
+--         , errorEstimates = [8.082378899762402e-11]
+--         , evaluations = 8700
+--         , success = True }
 ```
 
 For a scalar-valued integrand, it's more convenient to define... a scalar-valued
@@ -58,11 +58,11 @@ f v = exp (V.sum v)
 and then to use `integrateOnSimplex'`:
 
 ```haskell
-> integrateOnSimplex' f [simplex] 100000 0 1e-10 3
-Result { value = 0.8455356852954488
-       , errorEstimate = 8.082378899762402e-11
-       , evaluations = 8700
-       , success = True }
+integrateOnSimplex' f [simplex] 100000 0 1e-10 3
+-- Result { value = 0.8455356852954488
+--        , errorEstimate = 8.082378899762402e-11
+--        , evaluations = 8700
+--        , success = True }
 ```
 
 ## Integration on a spherical triangle
@@ -93,9 +93,9 @@ integrand x = (x!!0 * x!!0 * x!!2) + (x!!1 * x!!1 * x!!2) + (x!!2 * x!!2 * x!!2)
 Compute the integral (the exact result is `pi/4 ≈ 0.7853981634`):
 
 ```haskell
-> integrateOnSphericalSimplex integrand o1 20000 0 1e-7 3
-Result { value         = 0.7853981641913279
-       , errorEstimate = 7.71579524444753e-8
-       , evaluations   = 17065
-       , success       = True }
+integrateOnSphericalSimplex integrand o1 20000 0 1e-7 3
+-- Result { value         = 0.7853981641913279
+--        , errorEstimate = 7.71579524444753e-8
+--        , evaluations   = 17065
+--        , success       = True }
 ```
