@@ -96,7 +96,7 @@ have rational coordinates. Then the integral will be a rational number.
 
 Our polynomial is 
 
-![equation](https://latex.codecogs.com/png.image?\dpi{110}P(x,&space;y,&space;z)&space;=&space;x^4&space;&plus;&space;y&space;&plus;&space;2xy^2&space;-&space;3z.)
+![equation](https://latex.codecogs.com/gif.image?\dpi{110}P(x,&space;y,&space;z)&space;=&space;x^4&space;&plus;&space;y&space;&plus;&space;2xy^2&space;-&space;3z.)
 
 It must be defined in Haskell with the 
 [**hspray**](https://github.com/stla/hspray) library.
