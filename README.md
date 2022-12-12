@@ -92,7 +92,7 @@ We take as an example the rational numbers for `a`. Thus we must take a
 polynomial with rational coefficients and a simplex whose vertices 
 have rational coordinates. Then the integral will be a rational number.
 
-Our polynomial is $$P(x, y, z) = x^4 + y + 2(xy^2) - 3z.$$
+Our polynomial is $$P(x, y, z) = x^4 + y + 2xy^2 - 3z.$$
 It must be defined in Haskell with the 
 [**hspray**](https://github.com/stla/hspray) library.
 
