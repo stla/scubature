@@ -4,9 +4,11 @@ Pure Haskell implementation of simplicial cubature (integration over a simplex).
 
 This library is a port of a part of the R package **SimplicalCubature**, 
 written by John P. Nolan, and which contains R translations of 
-some Matlab and Fortran code written by Alan Genz. In addition it 
-provides a function for the exact computation of the integral of a 
-polynomial over a simplex.
+some Matlab and Fortran code written by Alan Genz. 
+It is also a port of a part of the R package **SphericalCubature**, also 
+written by John P. Nolan. 
+In addition it provides a function for the exact computation of the integral 
+of a polynomial over a simplex.
 
 ___
 
@@ -101,15 +103,19 @@ import Numeric.Integration.IntegratePolynomialOnSimplex
 import Data.Ratio
 import Math.Algebra.Hspray 
 
+:{
 simplex :: [[Rational]]
 simplex = [[1, 1, 1], [2, 2, 3], [3, 4, 5], [3, 2, 1]]
+:}
 
 x = lone 1 :: Spray Rational
 y = lone 2 :: Spray Rational
 z = lone 3 :: Spray Rational
 
+:{
 poly :: Spray Rational
 poly = x^**^4 ^+^ y ^+^ 2.^(x ^*^ y^**^2) ^-^ 3.^z
+:}
 
 integratePolynomialOnSimplex poly simplex
 -- 1387 % 42
