@@ -2,6 +2,16 @@
 
 Pure Haskell implementation of simplicial cubature (integration over a simplex).
 
+This library is a port of a part of the R package **SimplicalCubature**, 
+written by John P. Nolan, and which contains R translations of 
+some Matlab and Fortran code written by Alan Genz. In addition it 
+provides a function for the exact computation of the integral of a 
+polynomial over a simplex.
+
+___
+
+## Integral of a function on a simplex
+
 ```haskell
 integrateOnSimplex
     :: (VectorD -> VectorD)   -- integrand
@@ -14,7 +24,7 @@ integrateOnSimplex
     -> IO Results             -- values, error estimates, evaluations, success
 ```
 
-## Example
+### Example
 
 ![equation](http://latex.codecogs.com/gif.latex?%5Cint_0%5E1%5Cint_0%5Ex%5Cint_0%5Ey%5Cexp%28x+y+z%29%5C,%5Cmathrm%7Bd%7Dz%5C,%5Cmathrm%7Bd%7Dy%5C,%5Cmathrm%7Bd%7Dx=%5Cfrac%7B1%7D%7B6%7D%28e-1%29%5E3%5Capprox%20.8455356853)
 
@@ -28,7 +38,7 @@ f v = singleton $ exp (V.sum v)
 :}
 ```
 
-Define the simplex:
+Define the simplex (tetrahedron in dimension 3) by the list of its vertices:
 
 ```haskell
 simplex = [[0, 0, 0], [1, 1, 1], [0, 1, 1], [0, 0, 1]]
@@ -65,10 +75,53 @@ integrateOnSimplex' f [simplex] 100000 0 1e-10 3
 --        , success       = True }
 ```
 
+
+## Exact integral of a polynomial on a simplex
+
+```haskell
+integratePolynomialOnSimplex
+  :: (C a, Fractional a, Ord a) -- `C a` means that `a` must be a ring
+  => Spray a -- ^ polynomial to be integrated
+  -> [[a]]   -- ^ simplex to integrate over
+  -> a
+```
+
+### Example
+
+We take as an example the rational numbers for `a`. Thus we must take a 
+polynomial with rational coefficients and a simplex whose vertices 
+have rational coordinates. Then the integral will be a rational number.
+
+Our polynomial is $$P(x, y, z) = x^4 + y + 2(xy^2) - 3z.$$
+It must be defined in Haskell with the 
+[**hspray**](https://github.com/stla/hspray) library.
+
+```haskell
+import Numeric.Integration.IntegratePolynomialOnSimplex
+import Data.Ratio
+import Math.Algebra.Hspray 
+
+simplex :: [[Rational]]
+simplex = [[1, 1, 1], [2, 2, 3], [3, 4, 5], [3, 2, 1]]
+
+x = lone 1 :: Spray Rational
+y = lone 2 :: Spray Rational
+z = lone 3 :: Spray Rational
+
+poly :: Spray Rational
+poly = x^**^4 ^+^ y ^+^ 2.^(x ^*^ y^**^2) ^-^ 3.^z
+
+integratePolynomialOnSimplex poly simplex
+-- 1387 % 42
+```
+
+
 ## Integration on a spherical triangle
 
 The library also allows to evaluate an integral on a spherical simplex on the
 unit sphere (in dimension 3, a spherical triangle).
+
+### Example
 
 For example take the first orthant in dimension 3:
 
@@ -99,3 +152,14 @@ integrateOnSphericalSimplex integrand o1 20000 0 1e-7 3
 --        , evaluations   = 17065
 --        , success       = True }
 ```
+
+
+## References
+
+- A. Genz and R. Cools. 
+  *An adaptive numerical cubature algorithm for simplices.* 
+  ACM Trans. Math. Software 29, 297-308 (2003).
+
+- Jean B. Lasserre.
+  *Simple formula for the integration of polynomials on a simplex.* 
+  BIT Numerical Mathematics 61, 523-533 (2021).
