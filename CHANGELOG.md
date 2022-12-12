@@ -9,4 +9,4 @@
 1.1.0.0
 -------
 * new function `integratePolynomialOnSimplex`, returning the exact value of 
-  a polynomial over a simplex
+  the integral of a polynomial over a simplex
