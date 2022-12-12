@@ -6,7 +6,7 @@ import           Data.Array.Unboxed                  (UArray, array)
 import           Data.Array.Unsafe                   (unsafeThaw)
 import qualified Data.Vector.Unboxed                 as UV
 import           Numeric.Integration.Simplex.Simplex ( isValidSimplices, Simplices )
-import Numeric.Integration.SimplexCubature.Internal  ( VectorD, IO3dArray, adsimp )
+import           Numeric.Integration.SimplexCubature.Internal  ( VectorD, IO3dArray, adsimp )
 
 data Results = Results
   { values         :: [Double]
